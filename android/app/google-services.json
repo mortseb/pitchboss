@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "938435926740",
+    "project_id": "pitchboss",
+    "storage_bucket": "pitchboss.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938435926740:android:5d352e3d76ccabbe5bb941",
+        "android_client_info": {
+          "package_name": "com.pitchboss.pitchboss"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938435926740-nputpvu9qpfs2ej5voe3jvst3gvals2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsoGIafGsv1FbRClUuBOF3My1aY_hr908"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938435926740-nputpvu9qpfs2ej5voe3jvst3gvals2o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

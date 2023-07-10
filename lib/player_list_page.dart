@@ -84,7 +84,8 @@ class _PlayerListPageState extends State<PlayerListPage> {
                             color: Colors.white54,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: PlayerListItem(playerData: playerData),
+                          child: PlayerListItem(playerData: playerData, sortCriteria: _sortCriteria),
+
                         );
                       },
                     );
@@ -122,8 +123,9 @@ class _PlayerListPageState extends State<PlayerListPage> {
 
 class PlayerListItem extends StatelessWidget {
   final Map<String, dynamic> playerData;
+  final String sortCriteria;
 
-  PlayerListItem({required this.playerData});
+  PlayerListItem({required this.playerData, required this.sortCriteria});
 
   Color getColorForScore(int score) {
     if (score >= 0 && score <= 9) {
@@ -158,120 +160,56 @@ class PlayerListItem extends StatelessWidget {
     final mouthLink = playerData['mouthLink'];
     final noseLink = playerData['noseLink'];
 
-    // Vérifier si les champs existent et sont non null
-    final hasTotalScore = totalScore != null;
-    final hasGoalkeeperScore = goalkeeperScore != null;
-    final hasDefenderScore = defenderScore != null;
-    final hasMidfielderScore = midfielderScore != null;
-    final hasForwardScore = forwardScore != null;
+    // Determine the score to display based on the sort criteria
+    int displayScore;
+    switch (_sortCriteria) {
+      case 'Note générale':
+        displayScore = totalScore;
+        break;
+      case 'Note gardien':
+        displayScore = goalkeeperScore;
+        break;
+      case 'Note défenseur':
+        displayScore = defenderScore;
+        break;
+      case 'Note milieu':
+        displayScore = midfielderScore;
+        break;
+      case 'Note attaquant':
+        displayScore = forwardScore;
+        break;
+      default:
+        displayScore = totalScore;
+    }
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Stack(
-          children: [
-            Image.asset(faceLink, width: 64, height: 64),
-            Image.asset(eyebrowsLink, width: 64, height: 64),
-            Image.asset(eyesLink, width: 64, height: 64),
-            Image.asset(mouthLink, width: 64, height: 64),
-            Image.asset(noseLink, width: 64, height: 64),
-          ],
-        ),
-        SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      width: 64,
+      height: 128,
+      child: Column(
+        children: [
+          Stack(
             children: [
-              Text(lastName, style: TextStyle(fontSize: 16)),
-              SizedBox(height: 4),
-              if (hasTotalScore)
-                Container(
-                  decoration: BoxDecoration(
-                    color: getColorForScore(totalScore),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  padding: EdgeInsets.all(8),
-                  child: Center(
-                    child: Text(
-                      '$totalScore',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
+              Image.asset(faceLink, width: 64, height: 64),
+              Image.asset(eyebrowsLink, width: 64, height: 64),
+              Image.asset(eyesLink, width: 64, height: 64),
+              Image.asset(mouthLink, width: 64, height: 64),
+              Image.asset(noseLink, width: 64, height: 64),
             ],
           ),
-        ),
-        SizedBox(width: 8),
-        Container(
-          width: 1,
-          height: 64,
-          color: Colors.grey,
-        ),
-        SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (hasGoalkeeperScore)
-                Container(
-                  decoration: BoxDecoration(
-                    color: getColorForScore(goalkeeperScore),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  padding: EdgeInsets.all(8),
-                  child: Center(
-                    child: Text(
-                      'G: $goalkeeperScore',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              if (hasDefenderScore)
-                Container(
-                  decoration: BoxDecoration(
-                    color: getColorForScore(defenderScore),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  padding: EdgeInsets.all(8),
-                  child: Center(
-                    child: Text(
-                      'D: $defenderScore',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              if (hasMidfielderScore)
-                Container(
-                  decoration: BoxDecoration(
-                    color: getColorForScore(midfielderScore),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  padding: EdgeInsets.all(8),
-                  child: Center(
-                    child: Text(
-                      'M: $midfielderScore',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              if (hasForwardScore)
-                Container(
-                  decoration: BoxDecoration(
-                    color: getColorForScore(forwardScore),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  padding: EdgeInsets.all(8),
-                  child: Center(
-                    child: Text(
-                      'A: $forwardScore',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-            ],
+          Container(
+            height: 64,
+            decoration: BoxDecoration(
+              color: getColorForScore(displayScore),
+            ),
+            child: Center(
+              child: Text(
+                '$displayScore',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
